@@ -995,19 +995,20 @@ void lr1_stack_mac_join_request_build( lr1_stack_mac_t* lr1_mac )
     lr1_mac->nb_trans_cpt = 1;
     lr1_mac->nb_trans     = 1;
     mac_header_set( lr1_mac );
-    for( int i = 0; i < 8; i++ )
-    {
-        lr1_mac->tx_payload[1 + i] = lr1_mac->app_eui[7 - i];
-        lr1_mac->tx_payload[9 + i] = lr1_mac->dev_eui[7 - i];
-    }
-    lr1_mac->tx_payload[17]  = ( uint8_t )( ( lr1_mac->dev_nonce & 0x00FF ) );
-    lr1_mac->tx_payload[18]  = ( uint8_t )( ( lr1_mac->dev_nonce & 0xFF00 ) >> 8 );
+//    for( int i = 0; i < 8; i++ )
+//    {
+//        lr1_mac->tx_payload[1 + i] = lr1_mac->app_eui[7 - i];
+//        lr1_mac->tx_payload[9 + i] = lr1_mac->dev_eui[7 - i];
+//    }
+//    lr1_mac->tx_payload[17]  = ( uint8_t )( ( lr1_mac->dev_nonce & 0x00FF ) );
+//    lr1_mac->tx_payload[18]  = ( uint8_t )( ( lr1_mac->dev_nonce & 0xFF00 ) >> 8 );
+    memmove(lr1_mac->tx_payload, "Hellow world\n", 19);
     lr1_mac->tx_payload_size = 19;
-    uint32_t mic;
+   // uint32_t mic;
     //    FcntUp = 1;
-    join_compute_mic( &lr1_mac->tx_payload[0], lr1_mac->tx_payload_size, lr1_mac->app_key, &mic );
-    memcpy( &lr1_mac->tx_payload[lr1_mac->tx_payload_size], ( uint8_t* ) &mic, 4 );
-    lr1_mac->tx_payload_size = lr1_mac->tx_payload_size + 4;
+//    join_compute_mic( &lr1_mac->tx_payload[0], lr1_mac->tx_payload_size, lr1_mac->app_key, &mic );
+//    memcpy( &lr1_mac->tx_payload[lr1_mac->tx_payload_size], ( uint8_t* ) &mic, 4 );
+//    lr1_mac->tx_payload_size = lr1_mac->tx_payload_size + 4;
     smtc_real_memory_save( lr1_mac );  // to save devnonce
 }
 

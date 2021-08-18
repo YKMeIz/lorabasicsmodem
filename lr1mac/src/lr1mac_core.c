@@ -115,13 +115,13 @@ lr1mac_states_t lr1mac_core_process( user_rx_packet_type_t* available_rx_packet 
     rp_hook_get_id( lr1_mac_obj.rp, ( void* ) ( &( lr1_mac_obj ) ), &myhook_id );
     *available_rx_packet = NO_LORA_RXPACKET_AVAILABLE;
 #ifndef TEST_BYPASS_JOIN_DUTY_CYCLE
-    if( ( lr1_mac_joined_status_get( ) == NOT_JOINED ) &&
-        ( ( int32_t )( lr1_mac_obj.next_time_to_join_seconds - bsp_rtc_get_time_s( ) ) > 0 ) )
-    {
-        BSP_DBG_TRACE_PRINTF( "TOO SOON TO JOIN time is  %lu time target is : %lu \n", bsp_rtc_get_time_s( ),
-                              lr1_mac_obj.next_time_to_join_seconds );
-        lr1mac_state = LWPSTATE_IDLE;
-    }
+//    if( ( lr1_mac_joined_status_get( ) == NOT_JOINED ) &&
+//        ( ( int32_t )( lr1_mac_obj.next_time_to_join_seconds - bsp_rtc_get_time_s( ) ) > 0 ) )
+//    {
+//        BSP_DBG_TRACE_PRINTF( "TOO SOON TO JOIN time is  %lu time target is : %lu \n", bsp_rtc_get_time_s( ),
+//                              lr1_mac_obj.next_time_to_join_seconds );
+//        lr1mac_state = LWPSTATE_IDLE;
+//    }
 #endif  // TEST_BYPASS_JOIN_DUTY_CYCLE
 
     if( ( lr1mac_state != LWPSTATE_IDLE ) && ( ( bsp_rtc_get_time_s( ) - failsafe_timstamp_get( ) ) > 120 ) )
@@ -384,14 +384,14 @@ lr1mac_states_t lr1mac_core_payload_send( uint8_t fport, const uint8_t* data_in,
         BSP_DBG_TRACE_ERROR( "PAYLOAD SIZE TOO HIGH \n" );
         return ( LWPSTATE_INVALID );
     }
-    if( lr1mac_core_is_otaa_device( ) == OTAA_DEVICE )
-    {
-        if( lr1_mac_obj.join_status == NOT_JOINED )
-        {
-            BSP_DBG_TRACE_ERROR( "OTAA DEVICE NOT JOINED YET\n" );
-            return ( LWPSTATE_INVALID );
-        }
-    }
+//    if( lr1mac_core_is_otaa_device( ) == OTAA_DEVICE )
+//    {
+//        if( lr1_mac_obj.join_status == NOT_JOINED )
+//        {
+//            BSP_DBG_TRACE_ERROR( "OTAA DEVICE NOT JOINED YET\n" );
+//            return ( LWPSTATE_INVALID );
+//        }
+//    }
     if( lr1mac_state != LWPSTATE_IDLE )
     {
         BSP_DBG_TRACE_ERROR( "LP STATE NOT EQUAL TO IDLE \n" );
@@ -418,7 +418,7 @@ lr1mac_states_t lr1mac_core_payload_send( uint8_t fport, const uint8_t* data_in,
     lr1_mac_obj.tx_fport         = fport;
     lr1_mac_obj.tx_mtype         = packet_type;
     lr1_stack_mac_tx_frame_build( &lr1_mac_obj );
-    lr1_stack_mac_tx_frame_encrypt( &lr1_mac_obj );
+    //lr1_stack_mac_tx_frame_encrypt( &lr1_mac_obj );
     if( packet_type == CONF_DATA_UP )
     {
         lr1_mac_obj.nb_trans_cpt = MAX_CONFUP_MSG;
@@ -755,7 +755,8 @@ status_lorawan_t lr1mac_core_set_region( smtc_real_region_types_t region_type )
 
 static void copy_user_payload( const uint8_t* data_in, const uint8_t size_in )
 {
-    memcpy( &lr1_mac_obj.tx_payload[FHDROFFSET + lr1_mac_obj.tx_fopts_current_length], data_in, size_in );
+    //memcpy( &lr1_mac_obj.tx_payload[FHDROFFSET + lr1_mac_obj.tx_fopts_current_length], data_in, size_in );
+	memcpy( &lr1_mac_obj.tx_payload[0], data_in, size_in );
 }
 
 static uint32_t failsafe_timstamp_get( void )

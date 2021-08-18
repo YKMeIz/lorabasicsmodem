@@ -104,7 +104,7 @@ void main_exti( uint8_t* user_dev_eui, uint8_t* user_join_eui, uint8_t* user_app
     modem_set_nwkkey( user_app_key );
 
     // Join LoRaWAN network
-    modem_join( );
+   modem_join( );
 
     BSP_DBG_TRACE_INFO( "EXTI exemple is starting \n" );
 
@@ -120,13 +120,16 @@ void main_exti( uint8_t* user_dev_eui, uint8_t* user_join_eui, uint8_t* user_app
             user_button_is_press = false;
 
             // Check if the device has already joined a network
-            if( is_joined( ) != 0 )
-            {
+//            if( is_joined( ) != 0 )
+//            {
                 // Send MCU temperature on port 102
-                uint8_t temperature = ( uint8_t ) bsp_mcu_get_mcu_temperature( );
-                BSP_DBG_TRACE_INFO( "MCU temperature : %d \n", temperature );
-                modem_request_tx( 102, TX_UNCONFIRMED, &temperature, 1 );
-            }
+                //uint8_t temperature = ( uint8_t ) bsp_mcu_get_mcu_temperature( );
+                //BSP_DBG_TRACE_INFO( "MCU temperature : %d \n", temperature );
+                //modem_request_tx( 102, TX_UNCONFIRMED, &temperature, 1 );
+            uint8_t c;
+            memmove(&c, "Hellow worrrr!", 19);
+            modem_request_tx( 102, TX_UNCONFIRMED, &c, 19 );
+//            }
         }
         else
         {

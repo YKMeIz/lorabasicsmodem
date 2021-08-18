@@ -148,11 +148,11 @@ modem_return_code_t modem_send_tx( uint8_t f_port, e_tx_mode_t msg_type, uint8_t
         return_code = RC_FAIL;
         BSP_DBG_TRACE_ERROR( "%s Modem is suspend\n", __func__ );
     }
-    else if( ( get_join_state( ) != MODEM_JOINED ) && ( lorawan_api_is_ota_device( ) == OTAA_DEVICE ) )
-    {
-        return_code = RC_FAIL;
-        BSP_DBG_TRACE_ERROR( "%s Stack not joined or OTA device %d \n", __func__, get_join_state( ) );
-    }
+//    else if( ( get_join_state( ) != MODEM_JOINED ) && ( lorawan_api_is_ota_device( ) == OTAA_DEVICE ) )
+//    {
+//        return_code = RC_FAIL;
+//        BSP_DBG_TRACE_ERROR( "%s Stack not joined or OTA device %d \n", __func__, get_join_state( ) );
+//    }
     else if( ( ( ( f_port == 0 ) || ( f_port >= 224 ) ) && !lorawan_api_certification_is_enabled( ) ) ||
              ( f_port == get_modem_dm_port( ) ) )
     {
